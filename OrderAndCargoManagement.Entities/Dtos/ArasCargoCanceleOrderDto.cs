@@ -12,8 +12,9 @@ namespace OrderAndCargoManagement.Entities.Dtos
     {
         [Required]
         public int Id { get; set; }
-        //eğer gıda siparisi iptal isteği gelirse otomatik pendinge düsüyor ve buradan yöneticiye gidecek
-        public override ResultStatus ResultStatus { get; set; } = ResultStatus.Pending;
+        //giyim siparisi iptali direkt olarak accepted olacak succes düşüyor.
+
+        public override ResultStatus ResultStatus { get; set; } = ResultStatus.Accepted;
 
     }
 }

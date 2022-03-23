@@ -13,6 +13,6 @@ namespace OrderAndCargoManagement.Entities.Dtos
         [Required]
         public int Id { get; set; }
         //giyim siparisi iptali direkt olarak accepted olacak succes düşüyor.
-        public override ResultStatus ResultStatus { get; set; } = ResultStatus.Accepted;
+        public override ResultStatus ResultStatus { get; set; } = ResultStatus.Pending;
     }
 }

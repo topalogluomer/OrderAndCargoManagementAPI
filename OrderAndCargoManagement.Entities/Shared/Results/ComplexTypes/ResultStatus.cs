@@ -10,6 +10,6 @@ namespace OrderAndCargoManagement.Entities.Shared
     {
         Accepted = 0,
         Rejected = 1,
-        Pending = 2, 
+        Pending = 2,  
     }
 }

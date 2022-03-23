@@ -7,6 +7,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OrderAndCargoManagement.Entities.Shared.Abstract;
+using OrderAndCargoManagement.Entities.Dtos;
+using AutoMapper;
+using OrderAndCargoManagement.Entities.Shared.Results.Concrete;
+using OrderAndCargoManagement.Entities.Shared;
 
 namespace OrderAndCargoManagement.Business.Concrete
 {
@@ -14,20 +19,36 @@ namespace OrderAndCargoManagement.Business.Concrete
     public class YurticiCargoManager : IYurticiCargoService
     {
         private IYurticiCargoRepository _yurticiCargoRepository;
-        public YurticiCargoManager()
+        private readonly IMapper _mapper;
+
+
+        public YurticiCargoManager(IMapper mapper)
         {
             _yurticiCargoRepository = new YurticiCargoRepository();
+            _mapper = mapper;
+
+        }
+
+        public YurticiCargoManager()
+        {
+            //_mapperı controllera alamadıgım icin bunu olusturdum
+        }
+
+        public async Task<IResult> CanceleOrder(YurticiCargoAddOrderDto yurticiCargoAddOrderDto, int id)
+        {
+            var foodOrder = _mapper.Map<YurticiCargo>(yurticiCargoAddOrderDto);
+            foodOrder.OrderCanceledDate = DateTime.Now;
+            //await _yurticiCargoRepository.CanceleOrder(yurticiCargoAddOrderDto, id);
+            return new Result(ResultStatus.Pending);
         }
 
 
-        public async Task CanceleOrder(int id)
+        public async Task<IResult> CreateOrder(YurticiCargoAddOrderDto yurticiCargoAddOrderDto)
         {
-             await _yurticiCargoRepository.CanceleOrder(id);
-        }
-
-        public Task<YurticiCargo> CreateOrder(YurticiCargo foodOrder)
-        {
-            return _yurticiCargoRepository.CreateOrder(foodOrder);
+            var foodOrder = _mapper.Map<ArasCargo>(yurticiCargoAddOrderDto);
+            foodOrder.OrderCreatedDate = DateTime.Now;
+            //await _yurticiCargoRepository.CreateOrder(arasCargoAddOrderDto);
+            return new Result(ResultStatus.Accepted);
         }
 
         public async Task<List<YurticiCargo>> GetAllOrders()

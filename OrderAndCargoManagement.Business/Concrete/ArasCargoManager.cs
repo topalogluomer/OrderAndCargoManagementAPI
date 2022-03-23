@@ -36,15 +36,15 @@ namespace OrderAndCargoManagement.Business.Concrete
         {
             var clothingOrder = _mapper.Map<ArasCargo>(arasCargoCanceleOrderDto);
             clothingOrder.OrderCanceledDate = DateTime.Now;
-            await _arasCargoRepository.CanceleOrder(id);
-            return new Result(ResultStatus.Pending);
+            //await _arasCargoRepository.CanceleOrder(arasCargoCanceleOrderDto,id);
+            return new Result(ResultStatus.Accepted);
         }
         //kodun bu kısmında hata alıyorum. Mapper null dönüyor calısmıyor.
         public async Task<IResult> CreateOrder(ArasCargoAddOrderDto arasCargoAddOrderDto)
         {
             var clothingOrder = _mapper.Map<ArasCargo>(arasCargoAddOrderDto);
             clothingOrder.OrderCreatedDate = DateTime.Now;
-            await _arasCargoRepository.CreateOrder(clothingOrder);
+            //await _arasCargoRepository.CreateOrder(arasCargoAddOrderDto);
             return new Result(ResultStatus.Accepted);
         }
 

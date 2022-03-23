@@ -13,8 +13,8 @@ namespace OrderAndCargoManagement.DataAccess.Abstract
         Task<ArasCargo> GetOrderById(int id);
         Task<ArasCargo> GetOrderByName(string name);
         Task<ArasCargo> CreateOrder(ArasCargo clothingOrder);
-        Task<ArasCargo> UpdateOrder(ArasCargo clothingOrder);
-        Task CanceleOrder(int id);
+        //Task<IResult> CreateOrder(ArasCargoAddOrderDto arasCargoAddOrderDto);
+        //Task<IResult> CanceleOrder(ArasCargoCanceleOrderDto arasCargoCanceleOrderDto, int id);
 
     }
 }

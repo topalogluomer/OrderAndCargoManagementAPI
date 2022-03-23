@@ -4,6 +4,8 @@ using OrderAndCargoManagement.Entities;
 using OrderAndCargoManagement.Business.Abstract;
 using OrderAndCargoManagement.Business.Concrete;
 using System.Threading.Tasks;
+using OrderAndCargoManagement.Entities.Shared;
+using OrderAndCargoManagement.Entities.Dtos;
 
 namespace OrderAndCargoManagement.API.Controllers
 {
@@ -12,6 +14,7 @@ namespace OrderAndCargoManagement.API.Controllers
     public class FoodOrders : ControllerBase
     {
         private IYurticiCargoService _yurticiCargoService;
+
         //atamalarımı yaptım
         public FoodOrders()
         {
@@ -57,11 +60,11 @@ namespace OrderAndCargoManagement.API.Controllers
         [HttpPost]
         [Route("[action]")]
 
-        public async Task<IActionResult> CreateFoodOrder([FromBody] YurticiCargo order)
+        public async Task<IActionResult> CreateFoodOrder([FromBody] YurticiCargoAddOrderDto order)
         {
             var FoodOrder = await _yurticiCargoService.CreateOrder(order);
 
-            return CreatedAtAction("GetAllFoodOrders", new { id = FoodOrder.Id }, FoodOrder);
+            return CreatedAtAction("GetAllFoodOrders", new {FoodOrder});
         }
         //[HttpPut]
         //[Route("[action]/{id}")]
@@ -75,11 +78,18 @@ namespace OrderAndCargoManagement.API.Controllers
         //}
         [HttpDelete]
         [Route("[action]/{id}")]
-        public async Task<IActionResult> CanceleFoodOrder(int id)
+        public async Task<IActionResult> CanceleFoodOrder(int id, YurticiCargoCanceleOrderDto yurticiCargoCanceleOrderDto)
         {
             if (await _yurticiCargoService.GetOrderById(id) != null)
             {
-                await _yurticiCargoService.CanceleOrder(id);
+                var result = ResultStatus.Pending;
+
+                if (result == ResultStatus.Pending)
+                {
+                    return BadRequest();
+                }
+                await _yurticiCargoService.CanceleOrder(yurticiCargoCanceleOrderDto, id);
+
                 return Ok();
             }
             return NotFound("Order was not found");

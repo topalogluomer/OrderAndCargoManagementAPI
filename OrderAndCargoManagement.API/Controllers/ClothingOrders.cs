@@ -84,12 +84,14 @@ namespace OrderAndCargoManagement.API.Controllers
         {
             if (await _arasCargoService.GetOrderById(id) != null)
             {
-                await _arasCargoService.CanceleOrder(arasCargoCanceleOrderDto,id);
-                //var a = ResultStatus.Pending;
-                //if ()
-                //{
+                var result = ResultStatus.Accepted;
 
-                //}
+                if (result == ResultStatus.Pending)
+                {
+                    return BadRequest();
+                }
+
+                await _arasCargoService.CanceleOrder(arasCargoCanceleOrderDto, id);
                 return Ok();
             }
             return NotFound("Order was not found");
